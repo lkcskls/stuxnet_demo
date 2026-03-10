@@ -9,7 +9,7 @@ export function getPhaseDisplayState(phase: PhaseId): SimState {
   return computeSimState(phase);
 }
 
-function getStatusFromHealth(healthPercent: number): string {
+export function getStatusFromHealth(healthPercent: number): string {
   if (healthPercent > 90) return "Good";
   if (healthPercent > 80) return "Normal";
   if (healthPercent > 40) return "Service needed";

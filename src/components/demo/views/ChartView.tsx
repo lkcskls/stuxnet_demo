@@ -1,6 +1,7 @@
 "use client";
 
-import { useDemo } from "@/context/DemoContext";
+import { useEffect, useState } from "react";
+import { GLOBAL_PHASE_DURATION_MS, useDemo } from "@/context/DemoContext";
 import {
   LineChart,
   Line,
@@ -14,15 +15,55 @@ import {
 import { ViewPanel } from "./ViewPanel";
 
 export function ChartView() {
-  const { chartDataByPhase } = useDemo();
+  const { chartDataByPhase, phase } = useDemo();
+  const [visibleCount, setVisibleCount] = useState(chartDataByPhase.length);
 
-  let data = chartDataByPhase.map((p) => ({
+  useEffect(() => {
+    const totalPoints = chartDataByPhase.length;
+
+    if (phase < 6 || totalPoints === 0) {
+      setVisibleCount(totalPoints);
+      return;
+    }
+
+    const firstPhase7Idx = chartDataByPhase.findIndex((p) => p.phase === 6);
+    const baseCount = firstPhase7Idx === -1 ? totalPoints : firstPhase7Idx;
+    const phase7Points = totalPoints - baseCount;
+
+    if (phase7Points <= 0) {
+      setVisibleCount(totalPoints);
+      return;
+    }
+
+    setVisibleCount(baseCount);
+
+    const intervalMs = GLOBAL_PHASE_DURATION_MS / phase7Points;
+
+    const id = window.setInterval(() => {
+      setVisibleCount((current) => {
+        if (current >= totalPoints) {
+          window.clearInterval(id);
+          return current;
+        }
+        return current + 1;
+      });
+    }, intervalMs);
+
+    return () => window.clearInterval(id);
+  }, [phase, chartDataByPhase]);
+
+  const mapped = chartDataByPhase.map((p) => ({
     phase: p.phase,
     phaseLabel: p.phaseLabel,
     xValue: p.xValue ?? p.phase,
     realSpeed: Number.isFinite(Number(p.realSpeed)) ? Math.round(Number(p.realSpeed)) : 0,
     shownSpeed: Number.isFinite(Number(p.shownSpeed)) ? Math.round(Number(p.shownSpeed)) : 0,
   }));
+
+  let data =
+    phase >= 6
+      ? mapped.slice(0, Math.max(0, Math.min(visibleCount, mapped.length)))
+      : mapped;
 
   if (data.length === 1) {
     data = [
@@ -45,9 +86,9 @@ export function ChartView() {
             <XAxis
               dataKey="xValue"
               domain={[0, 7]}
-              tick={{ fontSize: 13 }}
-              tickFormatter={formatStepLabel}
-              className="text-zinc-600 dark:text-zinc-400"
+              tick={false}
+              tickLine={false}
+              axisLine={false}
             />
             <YAxis
               domain={[0, 1500]}
