@@ -10,6 +10,20 @@ export function PLCView() {
   ? (isModified ? simState.shownSpeed : simState.realSpeed)
   : 1064;
 
+  let outputLabel: string;
+  if (phase === 4) {
+    // Step 5
+    outputLabel = "1410 Hz";
+  } else if (phase === 5) {
+    // Step 6
+    outputLabel = "2 Hz";
+  } else if (phase === 6) {
+    // Step 7
+    outputLabel = "1410 / 1064 / 2 Hz";
+  } else {
+    outputLabel = `${Math.round(outputSpeed)} Hz`;
+  }
+
   return (
     <ViewPanel title="PLC (Controller)">
       <div className="space-y-3 text-base">
@@ -20,7 +34,7 @@ export function PLCView() {
         <div className="flex justify-between">
           <span className="text-zinc-500 dark:text-zinc-400">Output</span>
           <span className="font-mono font-semibold">
-            {Math.round(outputSpeed)} Hz
+            {outputLabel}
           </span>
         </div>
         {isModified && (

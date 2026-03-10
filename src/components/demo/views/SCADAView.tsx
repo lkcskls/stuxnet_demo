@@ -13,7 +13,7 @@ export function SCADAView() {
     : 45;
   return (
     <ViewPanel title="SCADA (Operator View)">
-      <div className="crt-screen rounded bg-black p-4 text-green-400">
+      <div className="crt-screen flex-1 rounded bg-black p-4 text-green-400">
         <div className="grid grid-cols-2 gap-4 text-base">
           <div>
             <span className="text-sm uppercase tracking-wider text-green-600">

@@ -4,7 +4,7 @@ A visual demonstration of the Stuxnet attack on industrial control systems. The 
 
 ## Features
 
-- **9 phases** you can step through (Previous / Next): from initial normal state to USB infection, dormant phase, PLC modification, manipulation, false feedback, damage, critical state, and collapse.
+- **Stuxnet lifecycle phases** you can step through (Previous / Next): from normal operation, through initial compromise (USB infection), dormant presence and reconnaissance, PLC logic subversion, overspeed and underspeed sabotage cycles, to alternating cycles with progressive damage.
 - **Five views** that update in real time:
   - **Physical process (Factory)** – centrifuge speed, temperature, status (real values).
   - **PLC** – controller setpoint and output (modified by Stuxnet from phase 3 onward).

@@ -77,7 +77,7 @@ export function ChartView() {
               type="monotone"
               dataKey="shownSpeed"
               name="Shown speed (Hz)"
-              stroke="#2563eb"
+              stroke="#ffffff"
               strokeWidth={2}
               dot={false}
               isAnimationActive={false}
