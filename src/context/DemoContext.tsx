@@ -44,6 +44,7 @@ function getSafeInitialState(): SimState {
     shownSpeed: Number(s.shownSpeed) || NORMAL_SPEED,
     temperature: Number(s.temperature) || 45,
     status: s.status || "Normal",
+    healthPercent: Number(s.healthPercent) ?? 99,
   };
 }
 
@@ -62,6 +63,7 @@ export function DemoProvider({ children }: { children: React.ReactNode }) {
       shownSpeed: Number(raw.shownSpeed) || NORMAL_SPEED,
       temperature: Number(raw.temperature) || 45,
       status: raw.status || "Normal",
+      healthPercent: Number(raw.healthPercent) ?? 99,
     };
     targetRef.current = nextTarget;
     setTargetState(nextTarget);
@@ -75,11 +77,13 @@ export function DemoProvider({ children }: { children: React.ReactNode }) {
       realSpeed: Number(displayState.realSpeed) || 0,
       shownSpeed: Number(displayState.shownSpeed) || 0,
       temperature: Number(displayState.temperature) || 0,
+      healthPercent: Number(displayState.healthPercent) ?? 0,
     };
     const to = {
       realSpeed: Number(target.realSpeed) || 0,
       shownSpeed: Number(target.shownSpeed) || 0,
       temperature: Number(target.temperature) || 0,
+      healthPercent: Number(target.healthPercent) ?? 0,
     };
 
     const controls = animate(from, to, {
@@ -91,6 +95,7 @@ export function DemoProvider({ children }: { children: React.ReactNode }) {
           realSpeed: Number.isFinite(Number(latest.realSpeed)) ? Number(latest.realSpeed) : t.realSpeed,
           shownSpeed: Number.isFinite(Number(latest.shownSpeed)) ? Number(latest.shownSpeed) : t.shownSpeed,
           temperature: Number.isFinite(Number(latest.temperature)) ? Number(latest.temperature) : t.temperature,
+          healthPercent: Number.isFinite(Number(latest.healthPercent)) ? Number(latest.healthPercent) : t.healthPercent,
           status: t.status,
         }));
       },

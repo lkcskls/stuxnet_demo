@@ -9,56 +9,81 @@ export function getPhaseDisplayState(phase: PhaseId): SimState {
   return computeSimState(phase);
 }
 
+function getStatusFromHealth(healthPercent: number): string {
+  if (healthPercent > 90) return "Good";
+  if (healthPercent > 80) return "Normal";
+  if (healthPercent > 40) return "Service needed";
+  return "Critical";
+}
+
 export function computeSimState(phase: PhaseId, _elapsedMs?: number): SimState {
   switch (phase) {
     case 0:
     case 1:
-    case 2:
+    case 2: {
+      const healthPercent = 99;
       return {
         realSpeed: NORMAL_SPEED,
         shownSpeed: NORMAL_SPEED,
         temperature: NORMAL_TEMP,
-        status: "Normal",
+        status: getStatusFromHealth(healthPercent),
+        healthPercent,
       };
+    }
 
-    case 3:
+    case 3: {
+      const healthPercent = 99;
       return {
         realSpeed: NORMAL_SPEED,
         shownSpeed: NORMAL_SPEED,
         temperature: NORMAL_TEMP,
-        status: "PLC modified",
+        status: getStatusFromHealth(healthPercent),
+        healthPercent,
       };
+    }
 
-    case 4:
+    case 4: {
+      const healthPercent = 97;
       return {
         realSpeed: OVERSPEED_HZ,
         shownSpeed: NORMAL_SPEED,
         temperature: NORMAL_TEMP,
-        status: "Over-speed (15 min)",
+        status: getStatusFromHealth(healthPercent),
+        healthPercent,
       };
+    }
 
-    case 5:
+    case 5: {
+      const healthPercent = 94;
       return {
         realSpeed: UNDERSPEED_HZ,
         shownSpeed: NORMAL_SPEED,
         temperature: NORMAL_TEMP,
-        status: "Under-speed (50 min)",
+        status: getStatusFromHealth(healthPercent),
+        healthPercent,
       };
+    }
 
-    case 6:
+    case 6: {
+      const healthPercent = 28;
       return {
         realSpeed: NORMAL_SPEED,
         shownSpeed: NORMAL_SPEED,
         temperature: NORMAL_TEMP,
-        status: "Damage accumulation",
+        status: getStatusFromHealth(healthPercent),
+        healthPercent,
       };
+    }
 
-    default:
+    default: {
+      const healthPercent = 99;
       return {
         realSpeed: NORMAL_SPEED,
         shownSpeed: NORMAL_SPEED,
         temperature: NORMAL_TEMP,
-        status: "Normal",
+        status: getStatusFromHealth(healthPercent),
+        healthPercent,
       };
+    }
   }
 }

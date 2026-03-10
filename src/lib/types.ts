@@ -5,6 +5,7 @@ export interface SimState {
   shownSpeed: number;
   temperature: number;
   status: string;
+  healthPercent: number;
 }
 
 export interface ChartPhasePoint {
